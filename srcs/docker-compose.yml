@@ -6,6 +6,24 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+    volumes:
+      - .web:/var/www/html
+    networks:
+      - inception_network
   wordpress:
     build: requirements/wordpress/.
     container_name: wordpress
+    env_file: .env
+    volumes:
+      - .web:/var/www/html
+    networks:
+      - inception_network
+  mariadb:
+    build: requirements/mariadb/.
+    container_name: mariadb
+    networks:
+      - inception_network
+
+networks:
+    inception_network:
+      driver: bridge
