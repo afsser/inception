@@ -41,20 +41,20 @@ setup:
 # Build: Build all Docker images
 build: setup
 	@echo "$(YELLOW)Building Docker images...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) build
+	@docker compose -f $(COMPOSE_FILE) build
 	@echo "$(GREEN)✓ Docker images built successfully$(RESET)"
 
 # Up: Start all containers
 up: setup
 	@echo "$(YELLOW)Starting containers...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) up -d
+	@docker compose -f $(COMPOSE_FILE) up -d
 	@echo "$(GREEN)✓ Containers started successfully$(RESET)"
 	@echo "$(GREEN)Access your site at: https://fcaldas-.42.fr$(RESET)"
 
 # Down: Stop all containers
 down:
 	@echo "$(YELLOW)Stopping containers...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) down
+	@docker compose -f $(COMPOSE_FILE) down
 	@echo "$(GREEN)✓ Containers stopped$(RESET)"
 
 # Restart: Restart all containers
@@ -62,22 +62,22 @@ restart: down up
 
 # Logs: Show logs from all containers
 logs:
-	@docker-compose -f $(COMPOSE_FILE) logs -f
+	@docker compose -f $(COMPOSE_FILE) logs -f
 
 # Status: Show status of containers
 status:
-	@docker-compose -f $(COMPOSE_FILE) ps
+	@docker compose -f $(COMPOSE_FILE) ps
 
 # Clean: Stop containers and remove them (keeps volumes and images)
 clean: down
 	@echo "$(YELLOW)Removing containers...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) rm -f
+	@docker compose -f $(COMPOSE_FILE) rm -f
 	@echo "$(GREEN)✓ Containers removed$(RESET)"
 
 # Fclean: Complete cleanup (removes containers, volumes, images, networks, and data)
 fclean: down
 	@echo "$(RED)Performing full cleanup...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) down -v --rmi all
+	@docker compose -f $(COMPOSE_FILE) down -v --rmi all
 	@docker system prune -af
 	@sudo rm -rf $(DATA_DIR)/mariadb/*
 	@sudo rm -rf $(DATA_DIR)/wordpress/*
@@ -106,7 +106,7 @@ check:
 	@echo "Data directories:"
 	@ls -la $(DATA_DIR)
 	@echo "\nDocker containers:"
-	@docker-compose -f $(COMPOSE_FILE) ps
+	@docker compose -f $(COMPOSE_FILE) ps
 	@echo "\nDocker volumes:"
 	@docker volume ls | grep inception || true
 	@echo "\nDocker networks:"
