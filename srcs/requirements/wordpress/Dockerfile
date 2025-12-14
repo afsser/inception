@@ -4,6 +4,7 @@ RUN apt update && apt upgrade -y && apt install -y \
 php7.4-fpm \
 php7.4-mysql \
 php7.4-mysqli \
+mariadb-client \
 curl
 
 RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
