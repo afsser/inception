@@ -5,6 +5,14 @@
 
 set -e
 
+# Verifica se o banco de dados já foi configurado
+CONFIGURED_FLAG="/var/lib/mysql/.configured"
+
+if [ -f "$CONFIGURED_FLAG" ]; then
+    echo "MariaDB already configured. Starting in production mode..."
+    exec mysqld_safe --datadir=/var/lib/mysql
+fi
+
 # Verifica se o diretório de dados já foi inicializado
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "Initializing MariaDB data directory..."
@@ -50,6 +58,9 @@ FLUSH PRIVILEGES;
 EOF
 
 echo "Database setup completed successfully!"
+
+# Marca como configurado
+touch "$CONFIGURED_FLAG"
 
 # Para o MariaDB temporário
 mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
